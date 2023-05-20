@@ -1,0 +1,49 @@
+.ButtonStyle {
+color: black;
+font-size: x-large;
+margin-left: 50px;
+padding: 20px 20px;
+}
+
+.ButtonStyle:hover {
+    color: #00f;
+}
+
+.heading {
+    font-size: xx-large;
+}
+.Instructions {
+    font-size: medium;
+}
+
+.parent{
+    width: 10000;
+    height: 10000;
+    border: 5px solid #000;
+}
+
+.Crosswordarea {
+width: 750px;
+height: 750px;
+border: 5px solid #000;
+display: inline-block;
+
+}
+
+.Crosswordhints{
+    width: 500px;
+    height: 500px;
+    border: 5px solid #000;
+    display: inline-block; 
+    }
+    
+   .Generatorbutton{
+    color: black;
+font-size: large;
+margin-left: 50px;
+padding: 5px 10px;
+   }
+
+   .Generatorbutton:hover {
+    color: #00f;
+}
