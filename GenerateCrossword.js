@@ -7,7 +7,9 @@ var RandomClue
 var RandomWord
 var rows
 var cluesArray = new Array()
- 
+var DebugMode = false
+
+
 var crosswordArray = [ 
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
@@ -92,6 +94,11 @@ function getRandomWord()
   RandomClue = rows[RandomWordPosition][1];
   RandomWord = rows[RandomWordPosition][0];
 
+  if (DebugMode == true)
+{
+  console.log("Random Word Generated : ",RandomWord)
+}
+  
 }
 
 
@@ -111,9 +118,22 @@ for (i = 0; i < crosswordArray.length; i++)
   }
 }
 
-//get random word and place it on the board
+//get random word and places it on the board. Word must be longer than 8 letters
 
-getRandomWord();
+
+
+let foundlongword = false;
+do {
+  getRandomWord();
+  if (RandomWord.length >= 8)
+  {
+    foundlongword = true
+  }
+}
+while (foundlongword == false);
+
+
+
 placeWord(RandomWord,1,1,true);
 AddClue (true);
 
@@ -154,6 +174,7 @@ function createCrosswordPuzzle()
 { 
 // This functions displays the current Crossword Puzzle
 
+
 var CrosswordFrame = document.createElement('div'); 
 CrosswordFrame.className = 'Crossword-frame'; 
 CrosswordFrame.id = 'Crossword-frame';
@@ -169,15 +190,18 @@ for (let i = 0; i < crosswordArray.length; i++)
         cell.style.border = '1px solid black'; 
         cell.style.width = '50px'; 
         cell.style.height = '50px'; 
+
         if (crosswordArray[i][j] !== '') 
         { 
         const input = document.createElement('input'); 
         input.setAttribute('type', 'text'); 
         input.setAttribute('maxlength', '1'); 
+        //input.setAttribute('placeholder', '1'); 
         input.style.width = '50px'; 
         input.style.height = '50px'; 
         input.style.textAlign = 'center'; 
         input.style.fontSize = '50px';
+
         cell.appendChild(input); 
         } else 
         { 
@@ -238,7 +262,6 @@ function ShowCrosswordArray ()
 {
 // this function shows the array that is holding the the current crossword puzzle. THis is for debugging 
 var OutputArray = ""
-var OutputCluesArray = ""
 var CRow = ""
 var i
 var j
@@ -252,21 +275,22 @@ for (i = 0; i < crosswordArray.length; i++)
   CRow = crosswordArray[i][j]; 
     if(CRow == '')
     {
-      CRow = '\t';
+      CRow = '_';
     }
     OutputArray = OutputArray + CRow;
   }
-  OutputArray = OutputArray + '\n';
+  console.log(OutputArray);
+  OutputArray = ''
 }
+
 
     
 for (i = 0; i < cluesArray.length; i++) 
 { 
-  OutputCluesArray = OutputCluesArray + cluesArray[i] + '\n';
+  OutputArray = cluesArray[i];
+  console.log(OutputArray);
 }
-alert (OutputArray);
 
-alert(OutputCluesArray);
 }
 
 function AddClue (bAcross)
@@ -307,9 +331,18 @@ function ClearScreen()
 
 }
 
+
+function CheckCrosswordAnswers()
+{
+// This function checks the answers
+alert("Max build this function")
+
+
+}
+
 function CheckandPlaceWord()
 {
-// This function tries to place 20 words on the crossword array
+// This function tries to place 80 words on the crossword array
 // It gets a random word
 // for each letter in the random word it scans tha crossword to see if it can match a letter
 // if it can, it then checks to see if the word could be placed on the crossword
@@ -330,8 +363,8 @@ function CheckandPlaceWord()
 
                 if (sLetter == crosswordArray[k][l])
                 {
-                 if (j==0)
-                 {
+                // if (j==0)
+                // {
                   // can the word be placed horizontally
                   Isclear(k,l,j,true);
                   
@@ -354,7 +387,7 @@ function CheckandPlaceWord()
                       }
                   }
 
-                 }
+                // }
                 }
         }
 
@@ -376,16 +409,16 @@ function Isclear(startrow, startcolumn, ipoint, horizontalp)
 
   if (crosswordArray === undefined || crosswordArray.length == 0) 
   {
-    alert( "Warning: crossword array is empty")
+    console.log( "Warning: crossword array is empty")
     }
     
     if (RandomWord === undefined || RandomWord.length == 0) 
     {
-      alert( "Warning: random word is empty")
+      console.log( "Warning: random word is empty")
       }
 
   Canbeplaced = true;
-
+  
   if (horizontalp == true)
   {
     // If you are placing horizontally and the length of the word is greater than the array columns the word cannot be placed
