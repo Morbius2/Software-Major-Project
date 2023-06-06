@@ -1,7 +1,7 @@
 // This is the master function for creating a new crossword. It contains some global variables defined below
 
 
-var Canbeplaced 
+
 var Canbeplaced 
 var RandomWordPosition
 var RandomClue
@@ -9,11 +9,8 @@ var RandomWord
 var rows
 var cluesArray = new Array()
 var DebugMode = false
-var cluesArray = new Array()
-var DebugMode = false
 
 
-var crosswordArray = [ 
 
 var crosswordArray = [ 
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
@@ -58,27 +55,7 @@ var crosswordArray = [
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] ];
-      var blankcrosswordArray = [ 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] ];
+
 function LoadtheCSV() {
   // This function loads the CSV file into a global array where it can be accessed for random word selection
   
@@ -112,10 +89,7 @@ function LoadtheCSV() {
   
 }
    
-function getRandomWord() 
-{
-// This function gets a random word from the loaded dictionary
-  RandomWordPosition = Math.floor(Math.random() * rows.length);
+
 function getRandomWord() 
 {
 // This function gets a random word from the loaded dictionary
@@ -128,15 +102,7 @@ function getRandomWord()
 {
   console.log("Random Word Generated : ",RandomWord)
 }
-  
-  RandomClue = rows[RandomWordPosition][1];
-  RandomWord = rows[RandomWordPosition][0];
-
-  if (DebugMode == true)
-{
-  console.log("Random Word Generated : ",RandomWord)
-}
-  
+   
 
 }
 
@@ -157,21 +123,6 @@ for (i = 0; i < crosswordArray.length; i++)
 }
 
 //get random word and places it on the board. Word must be longer than 8 letters
-//clear out the clues array
-cluesArray = [];
-
-// clear out the old crossword array
-for (i = 0; i < crosswordArray.length; i++) 
-{ 
-  for (j = 0; j < crosswordArray[i].length; j++) 
-  {
-    crosswordArray[i][j] = ''; 
-  }
-}
-
-//get random word and places it on the board. Word must be longer than 8 letters
-
-
 
 let foundlongword = false;
 do {
@@ -285,8 +236,8 @@ hintsFrame.className = 'hints-frame';
 hintsFrame.style.backgroundColor = 'white';
 hintsFrame.id = "hints-frame";
 // create the heading for the hints frame 
+var heading = document.createElement('h2'); 
 heading.innerText = 'CLUES'; 
-heading.innerText = 'Hints'; 
 hintsFrame.appendChild(heading); 
 var heading2 = document.createElement('h3'); 
 heading2.innerText = 'ACROSS'; 
@@ -398,7 +349,7 @@ function ClearScreen()
 
   let divElement = document.getElementById("hints-frame");
   divElement.remove();
-
+  let divElement2 = document.getElementById("Crossword-frame");
   divElement2.remove();
 
 }
@@ -675,6 +626,6 @@ else
  
 }
 
-divElement2.remove()
+
 
 }
