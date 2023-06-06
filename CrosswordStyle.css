@@ -1,8 +1,8 @@
 .ButtonStyle {
 color: black;
 font-size: x-large;
-margin-left: 50px;
 padding: 20px 20px;
+margin-left: 50px;
 }
 
 .ButtonStyle:hover {
@@ -46,4 +46,19 @@ padding: 5px 10px;
 
    .Generatorbutton:hover {
     color: #00f;
+}
+
+.hints-frame{
+    width: 400px;
+    height: 600px;
+    position: fixed;
+    font-size: small;
+    bottom: 0;
+    right: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input
+{
+    text-transform: uppercase
 }
