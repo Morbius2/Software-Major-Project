@@ -37,11 +37,11 @@ display: inline-block;
     display: inline-block; 
     }
     
-   .Generatorbutton{
+.Generatorbutton{
     color: black;
-font-size: large;
-margin-left: 50px;
-padding: 5px 10px;
+    font-size: large;
+    margin-left: 50px;
+    padding: 5px 10px;
    }
 
    .Generatorbutton:hover {
@@ -50,15 +50,41 @@ padding: 5px 10px;
 
 .hints-frame{
     width: 400px;
-    height: 600px;
+    height: 550px;
     position: fixed;
     font-size: small;
     bottom: 0;
     right: 0;
     font-family: 'Courier New', Courier, monospace;
-}
+
+    
+    display: inline-block;
+    border: 3px solid #333333;
+
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+ 
+    background: #ffffff;
+
+    
+    &::before {
+        content: '';
+        border: 2px solid #353535;
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+        border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+    }
+  }
 
 input
 {
     text-transform: uppercase
+}
+
+ul {
+    list-style-type: none;
 }

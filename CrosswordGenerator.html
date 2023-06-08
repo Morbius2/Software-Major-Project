@@ -7,7 +7,7 @@
     <title>Create a Crossword</title>
     <link href="CrosswordStyle.css" rel="stylesheet">
 </head>
-<body style="background-image: url(create.jpg); background-repeat: no-repeat; background-size: 100%;"> 
+<body style="background-image: url(CreateCrosswordHeader.jpg); background-repeat: no-repeat;background-color:black"> 
     <br><br>
     <br><br>
     <br><br>
@@ -15,17 +15,14 @@
     <br><br>
     <br><br>
     <br><br>
-    <button id="CrosswordBuilder" onclick="createCrosswordPuzzle()" title="This function displays the crossword only if a new crossword is built and if the data dictionary is already loaded" class="Generatorbutton"> Display the Crossword!</button>
+    <button id="BuildCrossword" onclick="BuildNewCrossword() "  title="This function builds a new crossword only if the data dictionary is loaded" class="Generatorbutton">Build a new Crossword</button>
     &nbsp;
-    <button id="ErrorMessage" onclick="BuildNewCrossword() "  title="This function builds a new crossword only if the data dictionary is loaded" class="Generatorbutton">Build a new Crossword</button>
+    <button id="CheckCrossword" onclick="CheckCrosswordAnswers() " title="This function shows the crossword array if a new crossword is built and the data dictionary is loaded" class="Generatorbutton">Check your answers</button>
     &nbsp;
-    <button id="ShowArray" onclick="CheckCrosswordAnswers() " title="This function shows the crossword array if a new crossword is built and the data dictionary is loaded" class="Generatorbutton">Check your answers</button>
-    &nbsp;
-    <button id="Load data" onclick="LoadtheCSV() " title="This function loads the data dictionary" class="Generatorbutton">Loads the CSV word dictionary</button>
-    &nbsp;
-    <button id="Clear Screen" onclick="ClearScreen() " title="This function clears the display of a previously generated crossword"  class="Generatorbutton">Clears the Screen</button>
+    <button id="LoadFile" onclick="LoadtheCSV() " title="This function loads the data dictionary" class="Generatorbutton">Load the dictionary file</button>
     <br><br><br><br>
     <script src="GenerateCrossword.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <a href="CrosswordMainscreen.html">  
     <button class="Generatorbutton">Return to Menu</button>
     <br><br>
@@ -33,3 +30,4 @@
 </a>
 </body>
 </html>
+

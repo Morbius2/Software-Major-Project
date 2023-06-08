@@ -1,17 +1,23 @@
 // This is the master function for creating a new crossword. It contains some global variables defined below
 
 
-
+// variable to indicate if a word can be placed on the crossword puzzle
 var Canbeplaced 
+// the position of the random word selected from the dictionary
 var RandomWordPosition
+// the clue from the dictionary associated with the current selected random word
 var RandomClue
+// the randomly selected word from the dictionary
 var RandomWord
+// the array that holds all the words read in from the dictionary
 var rows
+// the array that hold the clues for the current crossword puzzle
 var cluesArray = new Array()
+// a flag that if true will send debugging messages to the console. only switch to true during testing
 var DebugMode = false
 
 
-
+// the array that holds the current crossword puzzle
 var crosswordArray = [ 
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
@@ -34,6 +40,7 @@ var crosswordArray = [
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] ];
 
+      // a duplicate blank array to copy over the current crosswrd array to reset it when a new puzzle is created
       var blankcrosswordArray = [ 
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 
@@ -72,7 +79,10 @@ function LoadtheCSV() {
       // Split the CSV file into rows and convert each row to an array
      rows = this.responseText.split("\n").map(row => row.split(","));
     
-    alert ("CSV file load completed")
+   // alert ("CSV file load completed.\nThere are " + rows.length + " loaded and ready to use")
+
+    swal("Dictionary load success", "There are " + rows.length + " words  loaded and ready to use", "success");
+
     }
   };
 
@@ -110,6 +120,15 @@ function getRandomWord()
 function BuildNewCrossword ()
 {
 // This function will create a brand new crossword puzzle
+
+if (rows == null)
+{
+  swal("Crossword generate", "Load the dictionary before building a crossword", "error");
+  return(false);
+}
+
+ClearScreen()
+
 //clear out the clues array
 cluesArray = [];
 
@@ -129,27 +148,28 @@ do {
   getRandomWord();
   if (RandomWord.length >= 8)
   {
-    foundlongword = true
+    foundlongword = true;
   }
 }
 while (foundlongword == false);
 
-
-
-getRandomWord();
 placeWord(RandomWord,1,1,true);
 AddClue (true);
 
 CheckandPlaceWord()
 
-alert("New crossword generated");
+swal("Crossword creation success", "A new crossword of " + cluesArray.length + " words has been created", "success");
+
+DisplayCrosswordPuzzle()
+
+//alert("New crossword generated");
 
 
 }
 
 function placeWord (sWordtoPlace, atRow, atColumn, Horizontalplacement)
 {
-//This function puts a word into the crossword
+//This function puts a word into the current crossword
 var iRow = atRow
 var iColumn = atColumn
 
@@ -173,9 +193,18 @@ for (var i = 0; i < sWordtoPlace.length; i++)
 }
 
 
-function createCrosswordPuzzle() 
+function DisplayCrosswordPuzzle() 
 { 
-// This functions displays the current Crossword Puzzle
+// This functions displays the current Crossword Puzzle on the screen. It creates 2 frames only for the crossword puzzle and one for the clues
+if (DebugMode == true)
+{
+  console.log("Displaying crossword",RandomWord)
+}
+
+if (crosswordArray === undefined || crosswordArray.length == 0) 
+{
+  console.log( "Warning: crossword array is empty")
+  }
 
 
 var CrosswordFrame = document.createElement('div'); 
@@ -198,10 +227,16 @@ for (let i = 0; i < crosswordArray.length; i++)
         { 
         const input = document.createElement('input'); 
         input.setAttribute('type', 'text'); 
+
+      //The ID for the HTML boxes that the users enters their answers is related to the position in the array
+      // The ID for the the first row and column is "0000"
+      // The first 2 digits relate to the row and the second 2 digits relate to the column
+      // for example the HTML input box with the ID of "0305" link to crossword array frow 4 column 6 
         input.setAttribute('id', (("0" + i.toString()).slice(-2)) + ("0" + j.toString()).slice(-2)); 
 
         //input.setAttribute('placeholder', '1'); 
-        input.setAttribute('maxlength', '1'); 
+        input.setAttribute('maxlength', '1');
+        input.setAttribute('autocomplete', 'off');  
         input.style.width = '50px'; 
         input.style.height = '50px'; 
         input.style.textAlign = 'center'; 
@@ -280,11 +315,9 @@ for (var i = 0; i < cluesArray.length; i++)
 
 
 
-
-
 function ShowCrosswordArray ()
 {
-// this function shows the array that is holding the the current crossword puzzle. THis is for debugging 
+// This function shows the array that is holding the the current crossword puzzle. THis is for debugging 
 var OutputArray = ""
 var CRow = ""
 var i
@@ -319,7 +352,7 @@ for (i = 0; i < cluesArray.length; i++)
 
 function AddClue (bAcross)
 {
-// This function will add a clue to the hints array
+// This function will add a clue to the hints array when a word is added to the crossword during creation
 var sOrientation
 // sOrientation is passed in to say whether the word is going accross or down
 if(bAcross == true)
@@ -345,27 +378,72 @@ if (cluesArray === undefined || cluesArray.length == 0) {
 
 function ClearScreen()
 {
-// This function clears the existing crossword away
+// This function clears the existing crossword and hint frame from the screen
 
   let divElement = document.getElementById("hints-frame");
-  divElement.remove();
+  if (divElement != null)
+  {
+    divElement.remove();
+  } else
+  {
+    if (DebugMode == true)
+    {
+    console.log("Warning: No hint frame found")
+    }
+    
+  }
   let divElement2 = document.getElementById("Crossword-frame");
+  if (divElement2 != null)
+  {
   divElement2.remove();
+  }else
+  {
+    if (DebugMode == true)
+    {
+    console.log("Warning: No crossword frame found")
+    }
+  }
 
 }
 
 
 function CheckCrosswordAnswers()
 {
-// This function checks the answers
+// This function checks the entered answers
+// There are 3 possible outcomes for each box on the crossword either:
+// - the box is empty
+// - the box is filled with the correct letter
+// - the box is filled an incorrect letter
+
+
+if((cluesArray.length == 0) || (rows == null) )
+{
+  swal("forgetting something?", "You have to create a crossword, and fill it in first", "warning");
+ return(false);
+}
+
+// variables to loop through the array
 var i
 var j
+// variable to store the letter that was input by the user
 var InputLetter
+// variable to store the letter that is in the crossword puzzle answer
 var CheckLetter
+
+// store the number of letters that were not entered
 let missedletter = 0
+
+// store the number of letter that were correctly entered
 let correctletter = 0
+
+//store the number of letters that were incorrectly enterd
 let wrongletter = 0
+
+// message to display to the user
 var OutputMessage
+
+//store the total number of letters in the crossword puzzle
+var TotalLetters = 0
 
 OutputMessage = ""
 
@@ -378,9 +456,17 @@ for (i = 0; i < crosswordArray.length; i++)
    
     if(CheckLetter != '')
     {
-
+      TotalLetters++
+      //The ID for the HTML boxes that the users enters their answers is related to the position in the array
+      // The ID for the the first row and column is "0000"
+      // The first 2 digits relate to the row and the second 2 digits relate to the column
+      // for example the HTML input box with the ID of "0305" link to crossword array frow 4 column 6 
       InputLetter = document.getElementById((("0" + i.toString()).slice(-2)) + ("0" + j.toString()).slice(-2)).value.toUpperCase()
-      console.log("Input: " + InputLetter, "Check:" + CheckLetter)
+      
+      if (DebugMode == true)
+      {
+      console.log("Letter Input by user: " + InputLetter, "Letter in Crossword array:" + CheckLetter)
+      }
 
       if (InputLetter != '')
       {
@@ -413,10 +499,25 @@ if (wrongletter > 0 )
 
 if (missedletter > 0 )
 {
-  OutputMessage = OutputMessage + "You missed " + missedletter + " letters. You should get glasses"
+  OutputMessage = OutputMessage + "You did not fill in " + missedletter + " letters. You should get glasses"
 }
 
-alert(OutputMessage)
+if (correctletter == TotalLetters)
+{
+OutputMessage = "Congratulations. \nYou successfully completed the crossword" 
+swal("Congratulations!", OutputMessage, "success");
+}
+else{
+  swal("Oh no!", OutputMessage, "error");
+
+}
+
+
+
+
+
+
+//alert(OutputMessage)
 
 
 }
@@ -428,6 +529,8 @@ function CheckandPlaceWord()
 // for each letter in the random word it scans tha crossword to see if it can match a letter
 // if it can, it then checks to see if the word could be placed on the crossword
 // if it can be placed it adds it to the crossword and stores the clue
+
+
 
   for (var i = 0; i < 80; i++) 
   {
@@ -487,7 +590,8 @@ function Isclear(startrow, startcolumn, ipoint, horizontalp)
   // This function assumes that it can be placed . If any of the illegal placement confditions are found it sets the flag to false
   // ipoint is the intersection of the placed word with the words already in the crossword
 
-
+  if (DebugMode == true)
+  {
   if (crosswordArray === undefined || crosswordArray.length == 0) 
   {
     console.log( "Warning: crossword array is empty")
@@ -497,6 +601,7 @@ function Isclear(startrow, startcolumn, ipoint, horizontalp)
     {
       console.log( "Warning: random word is empty")
       }
+  }
 
   Canbeplaced = true;
   
