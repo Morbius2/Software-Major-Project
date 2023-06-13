@@ -190,6 +190,17 @@ for (var i = 0; i < sWordtoPlace.length; i++)
 
 } 
 
+// The clue number has be put into the cell at the start of the placed word
+// Down arrow ascii 🡻 Cross arrow 🡺
+if (Horizontalplacement == true)
+{
+  crosswordArray[atRow][atColumn - 1] = (cluesArray.length + 1) + '🡺'
+}
+else
+{
+  crosswordArray[atRow - 1][atColumn] = (cluesArray.length + 1) + '🡻'
+}
+
 }
 
 
@@ -225,25 +236,40 @@ for (let i = 0; i < crosswordArray.length; i++)
 
         if (crosswordArray[i][j] !== '') 
         { 
-        const input = document.createElement('input'); 
-        input.setAttribute('type', 'text'); 
+        var sContents = ""; 
+        sContents = crosswordArray[i][j].toString();
+          if (sContents.search(/[^a-zA-Z]+/) === -1)
+          // If the letter check is an A to Z make it an input put box otherwise add the clue indicator
+            {
+              const input = document.createElement('input'); 
+              input.setAttribute('type', 'text'); 
 
-      //The ID for the HTML boxes that the users enters their answers is related to the position in the array
-      // The ID for the the first row and column is "0000"
-      // The first 2 digits relate to the row and the second 2 digits relate to the column
-      // for example the HTML input box with the ID of "0305" link to crossword array frow 4 column 6 
-        input.setAttribute('id', (("0" + i.toString()).slice(-2)) + ("0" + j.toString()).slice(-2)); 
+            //The ID for the HTML boxes that the users enters their answers is related to the position in the array
+            // The ID for the the first row and column is "0000"
+            // The first 2 digits relate to the row and the second 2 digits relate to the column
+            // for example the HTML input box with the ID of "0305" link to crossword array frow 4 column 6 
 
-        //input.setAttribute('placeholder', '1'); 
-        input.setAttribute('maxlength', '1');
-        input.setAttribute('autocomplete', 'off');  
-        input.style.width = '50px'; 
-        input.style.height = '50px'; 
-        input.style.textAlign = 'center'; 
+            // Down arrow ascii 🡻 Cross arrow 🡺
+              input.setAttribute('id', (("0" + i.toString()).slice(-2)) + ("0" + j.toString()).slice(-2)); 
+
+              //input.setAttribute('placeholder', '1'); 
+              input.setAttribute('maxlength', '1');
+              input.setAttribute('autocomplete', 'off');  
+              input.style.width = '50px'; 
+              input.style.height = '50px'; 
+              input.style.textAlign = 'center'; 
 
 
-        input.style.fontSize = '50px';
-        cell.appendChild(input); 
+              input.style.fontSize = '50px';
+              cell.appendChild(input); 
+            }else
+            {
+              cell.style.backgroundColor = 'black';
+              cell.innerText = crosswordArray[i][j];
+              cell.style.color = 'white'
+              cell.style.textAlign = 'center'; 
+            }
+
         } else 
         { 
         cell.style.backgroundColor = 'black';
@@ -456,6 +482,8 @@ for (i = 0; i < crosswordArray.length; i++)
    
     if(CheckLetter != '')
     {
+      if (CheckLetter.search(/[^a-zA-Z]+/) === -1)
+      {
       TotalLetters++
       //The ID for the HTML boxes that the users enters their answers is related to the position in the array
       // The ID for the the first row and column is "0000"
@@ -481,6 +509,7 @@ for (i = 0; i < crosswordArray.length; i++)
       {
         missedletter ++
       }
+    }
     }
     
   }
