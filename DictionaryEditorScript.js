@@ -38,11 +38,11 @@ function readDictionaryCSV() {
           // Create a new HTML cell for the word
           const wordCell = document.createElement("td");
           wordCell.innerText = rows[i][0];
-  
+          wordCell.style = "color: white;"
           // Create a new HTML cell for the clue
           const clueCell = document.createElement("td");
           clueCell.innerText = rows[i][1];
-  
+          clueCell.style = "color: white;"
           // Add the word cell and clue cell to the row
           row.appendChild(wordCell);
           row.appendChild(clueCell);
@@ -64,4 +64,21 @@ function readDictionaryCSV() {
   
     // Send the XMLHttpRequest
     xhr.send();
+  }
+
+  function AddCluetoCSV(){
+
+    
+    //var data = ["MILES","Clue wording"];
+    
+    //fs.writeFile("data.csv", data.join(","), function(err) {
+    //if (err) throw err;
+    //console.log("data saved");
+    //});
+
+
+
+    OutputMessage = "Your clue was successfully added to the dictionary file " 
+    swal("Success!", OutputMessage, "success");
+
   }
