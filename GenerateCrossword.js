@@ -65,6 +65,9 @@ var crosswordArray = [
 
 function LoadtheCSV() {
   // This function loads the CSV file into a global array where it can be accessed for random word selection
+  // We did not cover file loading in class so I did independent research to determine how to do this
+  // I found this link on the internet https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
+  // modified the code to work
   
   // Create a new XMLHttpRequest object
   const xhr = new XMLHttpRequest();
@@ -103,6 +106,8 @@ function LoadtheCSV() {
 function getRandomWord() 
 {
 // This function gets a random word from the loaded dictionary
+// Here I'm using the Math object for the random number generation
+// I looked up how to use these objects here https://www.w3schools.com/js/js_math.asp
   RandomWordPosition = Math.floor(Math.random() * rows.length);
 
   RandomClue = rows[RandomWordPosition][1];
@@ -120,6 +125,10 @@ function getRandomWord()
 function BuildNewCrossword ()
 {
 // This function will create a brand new crossword puzzle
+//to make the message boxes look better I researched Javascript pluggins SWAL is a free plug-in from
+//details on how sweetalert works
+// https://sweetalert.js.org/
+
 
 if (rows == null)
 {

@@ -1,7 +1,11 @@
 function readDictionaryCSV() {
   // The purpose of this function is to open the dictionary csv file and display its contents
   
-  // HUGH : Create a routine on this screen that can add a new clue + word and save it into the CSV file
+
+  //I could not figure out how to write to a csv file so this function is incomplete
+   // We did not cover file loading in class so I did independent research to determine how to do this
+  // I found this link on the internet https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
+  // modified the code to work
   
   
   // Create a new XMLHttpRequest object
@@ -38,11 +42,11 @@ function readDictionaryCSV() {
           // Create a new HTML cell for the word
           const wordCell = document.createElement("td");
           wordCell.innerText = rows[i][0];
-          wordCell.style = "color: white;"
+  
           // Create a new HTML cell for the clue
           const clueCell = document.createElement("td");
           clueCell.innerText = rows[i][1];
-          clueCell.style = "color: white;"
+  
           // Add the word cell and clue cell to the row
           row.appendChild(wordCell);
           row.appendChild(clueCell);
@@ -64,21 +68,4 @@ function readDictionaryCSV() {
   
     // Send the XMLHttpRequest
     xhr.send();
-  }
-
-  function AddCluetoCSV(){
-
-    
-    //var data = ["MILES","Clue wording"];
-    
-    //fs.writeFile("data.csv", data.join(","), function(err) {
-    //if (err) throw err;
-    //console.log("data saved");
-    //});
-
-
-
-    OutputMessage = "Your clue was successfully added to the dictionary file " 
-    swal("Success!", OutputMessage, "success");
-
   }
