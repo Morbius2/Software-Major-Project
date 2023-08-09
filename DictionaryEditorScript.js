@@ -5,7 +5,7 @@ function readDictionaryCSV() {
   //I could not figure out how to write to a csv file so this function is incomplete
    // We did not cover file loading in class so I did independent research to determine how to do this
   // I found this link on the internet https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
-  // modified the code to work
+  // modified the code to work.
   
   
   // Create a new XMLHttpRequest object

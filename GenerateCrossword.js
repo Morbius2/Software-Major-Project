@@ -64,7 +64,7 @@ var crosswordArray = [
         ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] ];
 
 function LoadtheCSV() {
-  // This function loads the CSV file into a global array where it can be accessed for random word selection
+  // This function loads the CSV file into a global array where it can be used for random word selection
   // We did not cover file loading in class so I did independent research to determine how to do this
   // I found this link on the internet https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
   // modified the code to work
@@ -125,9 +125,11 @@ function getRandomWord()
 function BuildNewCrossword ()
 {
 // This function will create a brand new crossword puzzle
-//to make the message boxes look better I researched Javascript pluggins SWAL is a free plug-in from
+//to make the message boxes look better I researched Javascript pluggins SWAL is a free plug-in for
 //details on how sweetalert works
 // https://sweetalert.js.org/
+// The swal command operates exactly like the "alert" function. The description of how this function works is here
+// https://sweetalert.js.org/docs/
 
 
 if (rows == null)
@@ -200,14 +202,16 @@ for (var i = 0; i < sWordtoPlace.length; i++)
 } 
 
 // The clue number has be put into the cell at the start of the placed word
-// Down arrow ascii 🡻 Cross arrow 🡺
+// Down arrow ascii ↓ Cross arrow →
+// right arrow is 39
+// down arrow is &#8595
 if (Horizontalplacement == true)
 {
-  crosswordArray[atRow][atColumn - 1] = (cluesArray.length + 1) + '🡺'
+  crosswordArray[atRow][atColumn - 1] = (cluesArray.length + 1) + '→'
 }
 else
 {
-  crosswordArray[atRow - 1][atColumn] = (cluesArray.length + 1) + '🡻'
+  crosswordArray[atRow - 1][atColumn] = (cluesArray.length + 1) + '↓'
 }
 
 }
@@ -215,7 +219,7 @@ else
 
 function DisplayCrosswordPuzzle() 
 { 
-// This functions displays the current Crossword Puzzle on the screen. It creates 2 frames only for the crossword puzzle and one for the clues
+// This functions displays the current Crossword Puzzle on the screen. It creates 2 frames. One for the crossword puzzle and one for the clues
 if (DebugMode == true)
 {
   console.log("Displaying crossword",RandomWord)
@@ -226,6 +230,11 @@ if (crosswordArray === undefined || crosswordArray.length == 0)
   console.log( "Warning: crossword array is empty")
   }
 
+// This function loops through the crossword array and
+// creates a class for the crossword frame, when a box is  placed, is is placed as an array in the crossword frame
+
+// I did some research on how to create frames and tables ujsing javascript.
+// I used this resource on w3schools to get ideas for code: https://www.w3schools.com/jsref/met_document_createelement.asp
 
 var CrosswordFrame = document.createElement('div'); 
 CrosswordFrame.className = 'Crossword-frame'; 
@@ -233,9 +242,11 @@ CrosswordFrame.id = 'Crossword-frame';
 const table = document.createElement('table'); 
 
 table.style.borderCollapse = 'collapse'; 
+// For each row in the array
 for (let i = 0; i < crosswordArray.length; i++) 
     { 
     const row = document.createElement('tr'); 
+    // for each cell in ech row of the array
     for (let j = 0; j < crosswordArray[i].length; j++) 
         { 
         const cell = document.createElement('td');
@@ -258,10 +269,10 @@ for (let i = 0; i < crosswordArray.length; i++)
             // The first 2 digits relate to the row and the second 2 digits relate to the column
             // for example the HTML input box with the ID of "0305" link to crossword array frow 4 column 6 
 
-            // Down arrow ascii 🡻 Cross arrow 🡺
+          
               input.setAttribute('id', (("0" + i.toString()).slice(-2)) + ("0" + j.toString()).slice(-2)); 
 
-              //input.setAttribute('placeholder', '1'); 
+              
               input.setAttribute('maxlength', '1');
               input.setAttribute('autocomplete', 'off');  
               input.style.width = '50px'; 
@@ -273,6 +284,8 @@ for (let i = 0; i < crosswordArray.length; i++)
               cell.appendChild(input); 
             }else
             {
+              // If it is not a letter in the crosdsword array it must be a number and the text needs to
+              // been shown
               cell.style.backgroundColor = 'black';
               cell.innerText = crosswordArray[i][j];
               cell.style.color = 'white'
@@ -349,42 +362,6 @@ for (var i = 0; i < cluesArray.length; i++)
 }
 
 
-
-function ShowCrosswordArray ()
-{
-// This function shows the array that is holding the the current crossword puzzle. THis is for debugging 
-var OutputArray = ""
-var CRow = ""
-var i
-var j
-
-
-for (i = 0; i < crosswordArray.length; i++) 
-{ 
-  CRow = ""
-  for (j = 0; j < crosswordArray[i].length; j++) 
-  {
-  CRow = crosswordArray[i][j]; 
-    if(CRow == '')
-    {
-      CRow = '_';
-    }
-    OutputArray = OutputArray + CRow;
-  }
-  console.log(OutputArray);
-  OutputArray = ''
-}
-
-
-    
-for (i = 0; i < cluesArray.length; i++) 
-{ 
-  OutputArray = cluesArray[i];
-  console.log(OutputArray);
-}
-
-}
-
 function AddClue (bAcross)
 {
 // This function will add a clue to the hints array when a word is added to the crossword during creation
@@ -398,12 +375,12 @@ if(bAcross == true)
   sOrientation = "DOWN"
 }
 if (cluesArray === undefined || cluesArray.length == 0) {
-  // array does not exist or is empty, then initialise the array
+  // array does not exist or is empty, then create the array
   cluesArray.push([1, RandomClue, RandomWord,sOrientation])
   }
   else
   {
-    // If the array is alreadfy initialised, Add one to the existing array
+    // If the array is already created, Add one to the existing array
   cluesArray.push([cluesArray.length + 1, RandomClue, RandomWord,sOrientation]);
   }
 
@@ -445,7 +422,7 @@ function ClearScreen()
 function CheckCrosswordAnswers()
 {
 // This function checks the entered answers
-// There are 3 possible outcomes for each box on the crossword either:
+// There are 3 possible states for each box on the crossword either:
 // - the box is empty
 // - the box is filled with the correct letter
 // - the box is filled an incorrect letter
@@ -471,7 +448,7 @@ let missedletter = 0
 // store the number of letter that were correctly entered
 let correctletter = 0
 
-//store the number of letters that were incorrectly enterd
+//store the number of letters that were incorrectly entered
 let wrongletter = 0
 
 // message to display to the user
@@ -481,10 +458,14 @@ var OutputMessage
 var TotalLetters = 0
 
 OutputMessage = ""
+// The output message is what is shown to the user, it starts empty and gets set depending on 
+// how many answers are correct
 
 for (i = 0; i < crosswordArray.length; i++) 
+// The Crossword array is 2d - you need 2 loops to check it for each row in the array
 { 
   CheckLetter = ""
+  // for each cell in the row
   for (j = 0; j < crosswordArray[i].length; j++) 
   {
     CheckLetter = crosswordArray[i][j]; 
@@ -551,13 +532,6 @@ else{
 }
 
 
-
-
-
-
-//alert(OutputMessage)
-
-
 }
 
 function CheckandPlaceWord()
@@ -569,27 +543,31 @@ function CheckandPlaceWord()
 // if it can be placed it adds it to the crossword and stores the clue
 
 
-
+// loop 80 times
   for (var i = 0; i < 80; i++) 
   {
     getRandomWord();
     var bPlaced = false;
+    // for each letter in the random word I am trying to place
     for (var j = 0; ((j < RandomWord.length)&&(bPlaced==false));j++)
     {
       sLetter = RandomWord.substr(j,1);
-      
+      //get the letter from the random word
+      // scan the Crossword array to see if there is a matching letter. The crossword array is 2d so it needs 2 loops
+      // for each row
       for(var k = 0; ((k < crosswordArray.length)&&(bPlaced==false)); k++)
       {
+        // for each cell in each row
         for(var l = 0; ((l < crosswordArray[k].length) &&(bPlaced==false)); l++)
         {
-
+              // does the letter from the random word match the letter in the cell I am checking?
                 if (sLetter == crosswordArray[k][l])
                 {
-                // if (j==0)
-                // {
-                  // can the word be placed horizontally
+
+                  // can the word be placed horizontally. This function checks all the spaces around the word to see if it can be placed on the crossword
                   Isclear(k,l,j,true);
                   
+                  // if it can be placed then store the random word on the crossword and go back to trying to place words
                   if (Canbeplaced==true) 
                     {
                       placeWord(RandomWord,k,l,true);
@@ -609,7 +587,7 @@ function CheckandPlaceWord()
                       }
                   }
 
-                // }
+
                 }
         }
 
@@ -627,6 +605,8 @@ function Isclear(startrow, startcolumn, ipoint, horizontalp)
   // The ends of the word shouldnt touch a word that has already been placed on the array
   // This function assumes that it can be placed . If any of the illegal placement confditions are found it sets the flag to false
   // ipoint is the intersection of the placed word with the words already in the crossword
+  // startrow and start column are the point where you want to put the word
+  // horizontalp says if you want the word to go accrss or down , true means accross
 
   if (DebugMode == true)
   {
@@ -641,6 +621,7 @@ function Isclear(startrow, startcolumn, ipoint, horizontalp)
       }
   }
 
+  //Canbeplaced is a variable that says if the word is ok to go on the crossword at that position
   Canbeplaced = true;
   
   if (horizontalp == true)
